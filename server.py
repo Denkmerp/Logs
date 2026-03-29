@@ -6,6 +6,12 @@ import os
 chat_logs = []
 
 class ChatHandler(BaseHTTPRequestHandler):
+    def do_GET(self):
+        if self.path == "/logs":
+            self._respond(200, {"logs": chat_logs})
+        else:
+            self._respond(404, {"status": "not found"})
+
     def do_POST(self):
         if self.path == "/log":
             content_length = int(self.headers.get("Content-Length", 0))
@@ -49,6 +55,6 @@ class ChatHandler(BaseHTTPRequestHandler):
         pass
 
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 8080))  # Railway uses 8080 by default
+    port = int(os.environ.get("PORT", 8080))
     print(f"Chat logger running on port {port}", flush=True)
     HTTPServer(("0.0.0.0", port), ChatHandler).serve_forever()
