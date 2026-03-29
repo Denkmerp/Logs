@@ -49,6 +49,6 @@ class ChatHandler(BaseHTTPRequestHandler):
         pass
 
 if __name__ == "__main__":
-    port = 5000
+    port = int(os.environ.get("PORT", 8080))  # Railway uses 8080 by default
     print(f"Chat logger running on port {port}", flush=True)
     HTTPServer(("0.0.0.0", port), ChatHandler).serve_forever()
